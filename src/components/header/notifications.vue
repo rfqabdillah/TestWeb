@@ -4,7 +4,8 @@
       <svg>
         <use href="@/assets/svg/icon-sprite.svg#notification" @click="notification_open()"></use>
       </svg>
-
+      <!-- <feather type="bell" @click="notification_open()"></feather
+      > -->
       <span class="badge rounded-pill badge-secondary">4 </span>
     </div>
     <div

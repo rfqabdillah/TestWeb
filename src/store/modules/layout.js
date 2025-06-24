@@ -1,10 +1,10 @@
 
 /* eslint-disable */ 
-import config from '../../data/layout.json';
+import Layout from '../../data/layout.json';
 
 
 const state = {
-	layout : config,
+	layout : Layout,
     sidebarType : localStorage.getItem('SidebarType') || 'default',
 	boxlayout : true,
 	footer: '',
@@ -12,7 +12,7 @@ const state = {
 	sidebar:'compact-sidebar1'
 };
 
-
+// getters
 const getters = {
 	footer:(state)=>{
 		return state.footer
@@ -23,6 +23,7 @@ const getters = {
 			},
 };
 
+// mutations
 const mutations = {
 	setFooter:(state,payload)=>{
 		state.footer=payload.class
@@ -41,16 +42,29 @@ const mutations = {
 		}
 	},
 	setLayoutType: (state, payload) => {
-		
+		// if (payload == 'box-layout') {
+		// 	document.body.classList.add(payload);
+		// }
+		// else if (payload == 'ltr' || payload == 'rtl') {
+		// 	document.body.className = document.body.className.replace("box-layout","");
+		// }
+		// document.body.setAttribute('class', payload);
+		// document.body.setAttribute('main-theme-layout', payload);
 		document.body.classList.remove('rtl')
 		document.body.classList.remove('ltr')
 		document.body.classList.remove('boxed')
 		document.documentElement.removeAttribute('dir')
 		payload.class && document.body.setAttribute('class', payload.class);
+		console.log("payload is :>",payload.class)
 		payload.class && document.documentElement.setAttribute('dir', payload.class);
 
-	
+		// if (payload == 'ltr') {
+		// 	document.body.classList.remove('rtl');
+		// } else if (payload == 'rtl') {
+		// 	document.body.classList.add(payload);
+		// }
 		state.layout.settings.layout_type = payload;
+		// document.getElementsByTagName('html')[0].setAttribute('dir', payload);
 	},
 	setLayout: (state, payload) => { 
 		 if(document.body.className == 'box-layout'){
@@ -74,18 +88,36 @@ const mutations = {
 		state.layout.color.layout_version = 'dark-only';
 		localStorage.setItem('layoutVersion', state.layout.color.layout_version);
 	},
-	
+	// setCustomizeSidebarType: (state, payload) => {
+	// 	localStorage.setItem('SidebarType', payload);
+	// },
 	setCustomizeSidebarType: (state, payload) => {
-	
-			localStorage.setItem('SidebarType', payload);
+		// var obj= document.getElementById('pageWrapper')
 		
+		// console.log("payload comming =>",payload)
+		// if(payload=='horizontal-wrapper'){
+		// 	obj.className=''
+		// 	localStorage.setItem('SidebarType', payload);
+		// state.sidebar=payload
+		// }
+		// else if(payload=='compact-sidebar1'){
+		// 	obj.className=''
+		// 	localStorage.setItem('SidebarType', payload);
+		// state.sidebar=payload
+		// }
+		// else{
+
+			localStorage.setItem('SidebarType', payload);
+			// state.sidebar=
+		// }
 	},
 	setSvg(state,payload){
 		state.svg=payload
-		state.layout.settings.sidebar_setting = payload
+
 	}
 };
 
+// actions
 const actions = {
 	set: (context) => {
 		context.commit('set');
@@ -102,7 +134,9 @@ const actions = {
 	setColorDarkScheme: (context, payload) => {
 		context.commit('setColorDarkScheme',payload);
 	},
-
+	// setCustomizeSidebarType: (context, payload) => {
+	// 	context.commit('setCustomizeSidebarType',payload);
+	// },
 	setCustomizeSidebarType: (context, payload) => {
 		context.commit('setCustomizeSidebarType',payload);
 	},
@@ -120,6 +154,7 @@ function setColor(state, color) {
 	addStyle(color.primary, color.secondary);
 	localStorage.setItem('primary_color', color.primary);
 	localStorage.setItem('secondary_color', color.secondary);
+	// window.location.reload();
 }
 
 export default {

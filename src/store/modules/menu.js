@@ -1,8 +1,8 @@
-import {menuItems} from '../../data/menu.js';
+import Menu from '../../data/menu.json';
 import BonusUI from '../../data/bonusui';
 
 const state = {
-  data: menuItems.data,
+  data: Menu.data,
   megamenu: BonusUI.data,
   searchData: [],
   togglesidebar: true,
@@ -19,12 +19,12 @@ const state = {
   menuWidth: 0,
 };
 
-
+// getters
 const getters = {
 
 };
 
-
+// mutations
 const mutations = {
   opensidebar: (state) => {
     state.togglesidebar = !state.togglesidebar;
@@ -37,8 +37,10 @@ const mutations = {
   resizetoggle: (state) => {
     if (window.innerWidth < 1007) {
       state.togglesidebar = false;
+      // state.activeoverlay = true
     } else {
       state.togglesidebar = true;
+      // state.activeoverlay = false
     }
   },
   searchTerm: (state, term) => {
@@ -84,6 +86,7 @@ const mutations = {
     item.active = !item.active;
   },
   setNavActive: (state, item) => {
+   
     if (!item.active) {
       state.data.forEach(a => {
         if (state.data.includes(item))
@@ -102,14 +105,11 @@ const mutations = {
     state.data.filter(menuItem => {
       if (menuItem !== item)
         menuItem.active = false;
-      if (menuItem.children && menuItem.children.includes(item)){
-        item.active = true;
+      if (menuItem.children && menuItem.children.includes(item))
         menuItem.active = true;
-      }
       if (menuItem.children) {
         menuItem.children.filter(submenuItems => {
           if (submenuItems.children && submenuItems.children.includes(item)) {
-            item.active = true;
             menuItem.active = true;
             submenuItems.active = true;
           }
@@ -119,6 +119,7 @@ const mutations = {
   }
 };
 
+// actions
 const actions = {
   opensidebar: (context, term) => {
     context.commit('opensidebar', term);
